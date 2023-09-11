@@ -1,0 +1,78 @@
+export const getStaticProps = async () => {
+  try {
+    const { data } = await client.query({
+      query: gql`
+        query NewQuery {
+          pages {
+            nodes {
+              title
+            }
+          }
+        }
+      `,
+    });
+
+    return {
+      props: {
+        data,
+        myexampleprop: "test",
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+
+    return {
+      props: {
+        data: "not working",
+        myexampleprop: "test",
+      },
+    };
+  }
+};
+
+
+
+
+
+
+
+import client from "client";
+import Comp from "./components/Comp";
+import { gql } from "@apollo/client";
+
+
+
+
+
+export default  function Home(props) {
+
+  console.log(props)
+  return ( 
+    <div>
+      text here
+      <Comp />
+    </div>
+
+  )
+}
+
+export const getStaticProps = async () => {
+  const {data} = await client.query({
+    query: gql`
+    query NewQuery {
+      posts {
+        nodes {
+          title
+        }
+      }
+    }
+    `
+  })
+  return {
+    props: {
+      data,
+      myexampleprop: "test"
+    }
+  }
+  
+}
