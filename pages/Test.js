@@ -1,11 +1,11 @@
+
 import { gql, useQuery } from '@apollo/client'
 import client from 'client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-const Test = ({ posts }) => {
+const Test = (props) => {
 
-console.log(posts)
-
+console.log(props)
   // const query = gql`
   // query AllPagesQuery {
   //   pages {
@@ -22,22 +22,22 @@ console.log(posts)
   // if (error) return <p>Error : {error.message}</p>;
   //       console.log(data)
 
+
+
+
   return (
-    <div>Test</div>
+    <div>
+      <p>hello</p>
+    </div>
   )
 }
 
-export async function getStaticProps() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  const posts = await res.json();
 
+export async function getStaticProps() {
+  const data = "hello"
   return {
-    props: {
-      posts
-    },
-    revalidate: 1
+    props: { data }
   };
 }
-
 
 export default Test

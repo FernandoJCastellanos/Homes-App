@@ -6,7 +6,6 @@ import {
   ApolloProvider,
   gql,
 } from "@apollo/client";
-import Test from "./Test";
 
 export default function Home() {
   const client = new ApolloClient({

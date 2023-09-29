@@ -1,71 +1,35 @@
-import { useQuery, gql } from '@apollo/client';
-import client from "client"
-import { getDataFromTree, renderToStringWithData } from "@apollo/client/react/ssr";
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+  } from "@apollo/client";
 
 
 
-import { useRouter } from 'next/router';
+import Slug from './components/Slugs/Slug';
+import { useRouter } from "next/router";
 
 
 
-export default function Page(props){
-    console.log(props)
+export default function Page(){
+
+    const router = useRouter();
+    const currentUrl = router.asPath;
+
+
+    const client = new ApolloClient({
+        ssrMode: true,
+        uri: "http://homes-course.local/graphql",
+        cache: new InMemoryCache(),
+    });
+
+
+
+// console.log(currentUrl)
+
     return (
-        <div>
-            page
-        </div>
-    )
+    <ApolloProvider client={client}>
+        <Slug url={currentUrl} />
+    </ApolloProvider>
+    );
 }
-
-
-export const getStaticProps = async () => {
-    return {
-        props: {},
-    }
-}
-
-
-export const getStaticPaths = async () => {
-
-    const query = gql`
-        query AllPagesQuery {
-            pages {
-                nodes {
-                    uri
-                }
-            }
-        }
-`
-    
-    const {data} = getDataFromTree(query)
-
-    return {
-        props: {
-            data
-        },
-        fallback: true
-    }
-
-}
-
-
-// const {data} = await client.query({
-//     query: gql`
-//         query AllPagesQuery {
-//             pages {
-//                 nodes {
-//                     uri
-//                 }
-//             }
-//         }
-//     `
-// });
-
-// return {
-//     paths: data.pages.nodes.filter(page => page.uri !== "/").map(page => ({
-//         params: {
-//             slug: page.uri.substring(1, page.uri.length - 1).split("/")
-//         },
-//     })),
-//     fallback: false,
-// }
